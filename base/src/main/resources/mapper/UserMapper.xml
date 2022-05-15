@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fu.base.dao.UserDao">
+
+    <resultMap type="com.fu.base.entity.User" id="BaseResultMap">
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="publicKey" column="public_key" jdbcType="VARCHAR"/>
+        <result property="privateKey" column="private_key" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="VARCHAR"/>
+        <result property="disabled" column="disabled" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">user_id, user_name, password, public_key, private_key, deleted, disabled, create_time, last_login_time</sql>
+
+    <!-- 根据ID查询 -->
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from `user`
+        where user_id = #{userId}
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from `user`
+        where 1=1
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="com.fu.base.entity.User">
+        insert into `user`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="publicKey != null">
+                public_key,
+            </if>
+            <if test="privateKey != null">
+                private_key,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="disabled != null">
+                disabled,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="userName != null">
+                #{userName},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="publicKey != null">
+                publicKey,
+            </if>
+            <if test="privateKey != null">
+                privateKey,
+            </if>
+            <if test="deleted != null">
+                #{deleted},
+            </if>
+            <if test="disabled != null">
+                #{disabled},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" parameterType="com.fu.base.entity.User">
+        update `user`
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="publicKey != null">
+                public_key = #{publicKey},
+            </if>
+            <if test="privateKey != null">
+                private_key = #{privateKey},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+            <if test="disabled != null">
+                disabled = #{disabled},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete">
+        delete
+        from `user`
+        where user_id = #{userId}
+    </delete>
+
+</mapper>
+

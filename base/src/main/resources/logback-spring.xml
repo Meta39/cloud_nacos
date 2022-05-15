@@ -3,7 +3,7 @@
     <!-- 动态日志级别 -->
     <jmxConfigurator />
     <!-- 定义日志文件输出位置 -->
-    <property name="log_dir" value="./logs/gateway/" />
+    <property name="log_dir" value="./logs/base/" />
     <!-- 日志最大的历史/天 -->
     <property name="maxHistory" value="15" />
 

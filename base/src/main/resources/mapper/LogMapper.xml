@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fu.base.dao.LogDao">
+
+    <resultMap type="com.fu.common.entity.Log" id="BaseResultMap">
+        <result property="logId" column="log_id" jdbcType="VARCHAR"/>
+        <result property="logType" column="log_type" jdbcType="INTEGER"/>
+        <result property="clientIp" column="client_ip" jdbcType="VARCHAR"/>
+        <result property="systemIp" column="system_ip" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="res" column="res" jdbcType="VARCHAR"/>
+        <result property="failCode" column="fail_code" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">log_id
+    , log_type, client_ip, system_ip, user_id, user_name, res, fail_code, content, create_time</sql>
+
+    <!-- 根据ID查询 -->
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from log
+        where log_id = #{logId}
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from log
+        where 1=1
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="com.fu.common.entity.Log">
+        insert into log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logId != null">
+                log_id,
+            </if>
+            <if test="logType != null">
+                log_type,
+            </if>
+            <if test="clientIp != null">
+                client_ip,
+            </if>
+            <if test="systemIp != null">
+                system_ip,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="res != null">
+                res,
+            </if>
+            <if test="failCode != null">
+                fail_code,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logId != null">
+                #{logId},
+            </if>
+            <if test="logType != null">
+                #{logType},
+            </if>
+            <if test="clientIp != null">
+                #{clientIp},
+            </if>
+            <if test="systemIp != null">
+                #{systemIp},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="userName != null">
+                #{userName},
+            </if>
+            <if test="res != null">
+                #{res},
+            </if>
+            <if test="failCode != null">
+                #{failCode},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>
+

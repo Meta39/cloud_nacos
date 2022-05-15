@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fu.base.dao.UserRoleDao">
+
+    <resultMap type="com.fu.base.entity.UserRole" id="BaseResultMap">
+        <result property="userRoleId" column="user_role_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">user_role_id
+    , user_id, role_id</sql>
+
+    <!-- 根据ID查询 -->
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_role
+        where user_role_id = #{userRoleId}
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_role
+        where 1=1
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="com.fu.base.entity.UserRole">
+        insert into user_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userRoleId != null">
+                user_role_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="roleId != null">
+                role_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userRoleId != null">
+                #{userRoleId},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="roleId != null">
+                #{roleId},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" parameterType="com.fu.base.entity.UserRole">
+        update user_role
+        <set>
+            <if test="userRoleId != null">
+                user_role_id = #{userRoleId},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="roleId != null">
+                role_id = #{roleId},
+            </if>
+        </set>
+        where user_role_id = #{userRoleId}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete">
+        delete
+        from user_role
+        where user_role_id = #{userRoleId}
+    </delete>
+
+<!--    登录查询用户角色信息-->
+    <select id="selectLoginUserRole" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_role
+        where user_id = #{userId}
+    </select>
+
+</mapper>
+

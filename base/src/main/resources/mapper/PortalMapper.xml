@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fu.base.dao.PortalDao">
+
+    <resultMap type="com.fu.base.entity.Portal" id="BaseResultMap">
+        <result property="portalId" column="portal_id" jdbcType="INTEGER"/>
+        <result property="portalName" column="portal_name" jdbcType="VARCHAR"/>
+        <result property="portalUrl" column="portal_url" jdbcType="VARCHAR"/>
+        <result property="portalIconUrl" column="portal_icon_url" jdbcType="VARCHAR"/>
+        <result property="portalSort" column="portal_sort" jdbcType="INTEGER"/>
+        <result property="disabled" column="disabled" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">portal_id
+    , portal_name, portal_url, portal_icon_url, portal_sort, disabled, remark, create_time</sql>
+
+    <!-- 根据ID查询 -->
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from portal
+        where portal_id = #{portalId}
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from portal
+        where 1=1
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="com.fu.base.entity.Portal">
+        insert into portal
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="portalId != null">
+                portal_id,
+            </if>
+            <if test="portalName != null">
+                portal_name,
+            </if>
+            <if test="portalUrl != null">
+                portal_url,
+            </if>
+            <if test="portalIconUrl != null">
+                portal_icon_url,
+            </if>
+            <if test="portalSort != null">
+                portal_sort,
+            </if>
+            <if test="disabled != null">
+                disabled,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="portalId != null">
+                #{portalId},
+            </if>
+            <if test="portalName != null">
+                #{portalName},
+            </if>
+            <if test="portalUrl != null">
+                #{portalUrl},
+            </if>
+            <if test="portalIconUrl != null">
+                #{portalIconUrl},
+            </if>
+            <if test="portalSort != null">
+                #{portalSort},
+            </if>
+            <if test="disabled != null">
+                #{disabled},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" parameterType="com.fu.base.entity.Portal">
+        update portal
+        <set>
+            <if test="portalId != null">
+                portal_id = #{portalId},
+            </if>
+            <if test="portalName != null">
+                portal_name = #{portalName},
+            </if>
+            <if test="portalUrl != null">
+                portal_url = #{portalUrl},
+            </if>
+            <if test="portalIconUrl != null">
+                portal_icon_url = #{portalIconUrl},
+            </if>
+            <if test="portalSort != null">
+                portal_sort = #{portalSort},
+            </if>
+            <if test="disabled != null">
+                disabled = #{disabled},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where portal_id = #{portalId}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete">
+        delete
+        from portal
+        where portal_id = #{portalId}
+    </delete>
+
+</mapper>
+

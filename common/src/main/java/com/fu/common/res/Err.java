@@ -1,7 +1,7 @@
 package com.fu.common.res;
 
 public class Err extends RuntimeException{
-    private Integer code;
+    private Integer code = 0 ;
     private String msg;
 
     public Err(){}

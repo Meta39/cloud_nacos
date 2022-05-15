@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fu.base.dao.DeptDao">
+
+    <resultMap type="com.fu.common.entity.Dept" id="BaseResultMap">
+        <result property="deptId" column="dept_id" jdbcType="INTEGER"/>
+        <result property="parentDeptId" column="parent_dept_id" jdbcType="INTEGER"/>
+        <result property="deptName" column="dept_name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">dept_id
+    , parent_dept_id, dept_name, create_time</sql>
+
+    <!-- 根据ID查询 -->
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dept
+        where dept_id = #{deptId}
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dept
+        where 1=1
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="com.fu.common.entity.Dept">
+        insert into dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">
+                dept_id,
+            </if>
+            <if test="parentDeptId != null">
+                parent_dept_id,
+            </if>
+            <if test="deptName != null">
+                dept_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">
+                #{deptId},
+            </if>
+            <if test="parentDeptId != null">
+                #{parentDeptId},
+            </if>
+            <if test="deptName != null">
+                #{deptName},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" parameterType="com.fu.common.entity.Dept">
+        update dept
+        <set>
+            <if test="deptId != null">
+                dept_id = #{deptId},
+            </if>
+            <if test="parentDeptId != null">
+                parent_dept_id = #{parentDeptId},
+            </if>
+            <if test="deptName != null">
+                dept_name = #{deptName},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where dept_id = #{deptId}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete">
+        delete
+        from dept
+        where dept_id = #{deptId}
+    </delete>
+
+</mapper>
+

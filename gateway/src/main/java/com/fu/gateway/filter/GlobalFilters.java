@@ -22,6 +22,7 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 全局过滤器
@@ -43,25 +44,33 @@ public class GlobalFilters implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
+//        ServerHttpRequest.Builder requestBuilder = request.mutate();//修改请求头
         DataBuffer buffer;
         String requestPath = request.getPath().toString(); //前端请求URI
         String token = request.getHeaders().getFirst("token");
-        String[] splitNotFilterPaths = notFilterPaths.split(";");
+        String[] splitNotFilterPaths = notFilterPaths.split(",");
         boolean isNotFilterPath =false;//请求地址是否包含白名单地址
         for (String notFilterPath:splitNotFilterPaths){
-            if (notFilterPath.equals(requestPath)) isNotFilterPath =true;
+            if (requestPath.contains(notFilterPath)){
+                isNotFilterPath =true;
+                break;
+            }
         }
 
         //uri过滤
         if (isNotFilterPath){
+            // 重新设置请求头先删除，后新增
+//            requestBuilder.headers(k -> k.remove("要修改的header的key"));
+//            if (StringUtils.isBlank(request.getHeaders().getFirst("userId")))requestBuilder.header("userId", "白名单userId");
+//            if (StringUtils.isBlank(request.getHeaders().getFirst("userName")))requestBuilder.header("userName", "白名单userName");
             return chain.filter(exchange);
         }else if (StringUtils.isNotBlank(token) && redisTemplate.hasKey(token)){//是否有token
-            redisTemplate.opsForValue().set(token, Objects.requireNonNull(redisTemplate.opsForValue().get(token)),tokenOvertime);//重新设置redis过期时间
+            redisTemplate.opsForValue().set(token, Objects.requireNonNull(redisTemplate.opsForValue().get(token)),tokenOvertime, TimeUnit.SECONDS);//重新设置redis过期时间
             return chain.filter(exchange);
         }else {//返回错误信息前端
             Res res = new Res();
             res.setCode(-1);
-            res.setMsg("未登录");
+            res.setMsg("token已过期，请重新登录");
 
             byte[] bytes = new byte[0];
             try {
