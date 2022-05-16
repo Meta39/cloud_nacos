@@ -110,7 +110,6 @@ public class LoginController {
 
             //账号密码正确则把相关信息存放到redis并设置过期时间
             redisTemplate.opsForValue().set(token,new ObjectMapper().writeValueAsString(tokenInfo),tokenOvertime, TimeUnit.SECONDS);
-            System.out.println(new ObjectMapper().readValue(new ObjectMapper().writeValueAsString(redisTemplate.opsForValue().get(token)),TokenInfo.class));
             return tokenInfo;
         }
     }

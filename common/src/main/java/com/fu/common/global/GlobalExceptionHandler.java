@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public Res exception(Exception e) {
-        log.error("500异常：{}" + getExceptionDetail(e));
+        log.error("500异常：\n" + getExceptionDetail(e));
         return Res.err(getExceptionDetail(e));
     }
 

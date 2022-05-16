@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
+import java.util.Objects;
 
 public class LogAspect {
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
@@ -65,8 +66,7 @@ public class LogAspect {
             if (logAnnotate.value() == 1){
                 logFeign.insert(new Log(logAnnotate.value(),request.getRemoteAddr(), Inet4Address.getLocalHost().getHostAddress(),Long.valueOf(request.getParameter("userId")),request.getParameter("userName"),false,null,"URL：" + request.getRequestURL().toString() + "，Request Args：" + new ObjectMapper().writeValueAsString(point.getArgs())));
             }else if (logAnnotate.value() == 2){
-                ObjectMapper om = new ObjectMapper();
-                TokenInfo tokenInfo = om.readValue(om.writeValueAsString(redisTemplate.opsForValue().get(request.getHeader("token"))),TokenInfo.class);
+                TokenInfo tokenInfo = new ObjectMapper().readValue(Objects.requireNonNull(redisTemplate.opsForValue().get(request.getHeader("token"))).toString(),TokenInfo.class);
                 logFeign.insert(new Log(logAnnotate.value(),request.getRemoteAddr(), Inet4Address.getLocalHost().getHostAddress(),tokenInfo.getUserId(),tokenInfo.getUserName(),false,null,"URL：" + request.getRequestURL().toString() + "，Request Args：" + new ObjectMapper().writeValueAsString(point.getArgs())));
             }else {
                 logFeign.insert(new Log(logAnnotate.value(),request.getRemoteAddr(), Inet4Address.getLocalHost().getHostAddress(),0L,"系统日志",false,null,"URL：" + request.getRequestURL().toString() + "，Request Args：" + new ObjectMapper().writeValueAsString(point.getArgs())));
@@ -88,8 +88,7 @@ public class LogAspect {
             if (logAnnotate.value() == 1){
                 logFeign.insert(new Log(logAnnotate.value(),request.getRemoteAddr(), Inet4Address.getLocalHost().getHostAddress(),Long.valueOf(request.getParameter("userId")),request.getParameter("userName"),false,null,"URL：" + request.getRequestURL().toString() + "，Request Args：" + new ObjectMapper().writeValueAsString(point.getArgs())));
             }else if (logAnnotate.value() == 2){
-                ObjectMapper om = new ObjectMapper();
-                TokenInfo tokenInfo = om.readValue(om.writeValueAsString(redisTemplate.opsForValue().get(request.getHeader("token"))),TokenInfo.class);
+                TokenInfo tokenInfo = new ObjectMapper().readValue(Objects.requireNonNull(redisTemplate.opsForValue().get(request.getHeader("token"))).toString(),TokenInfo.class);
                 logFeign.insert(new Log(logAnnotate.value(),request.getRemoteAddr(), Inet4Address.getLocalHost().getHostAddress(),tokenInfo.getUserId(),tokenInfo.getUserName(),false,null,"URL：" + request.getRequestURL().toString() + "，Request Args：" + new ObjectMapper().writeValueAsString(point.getArgs())));
             }else {
                 logFeign.insert(new Log(logAnnotate.value(),request.getRemoteAddr(), Inet4Address.getLocalHost().getHostAddress(),0L,"系统日志",false,null,"URL：" + request.getRequestURL().toString() + "，Request Args：" + new ObjectMapper().writeValueAsString(point.getArgs())));

@@ -1,7 +1,4 @@
 spring:
-  jackson:
-    time-zone: GMT+8
-    date-format: com.fasterxml.jackson.databind.util.StdDateFormat
   application:
     name: base
   cloud:
